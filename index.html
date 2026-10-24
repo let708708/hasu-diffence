@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>はすディフェンス</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <div class="sound-ctrl" aria-label="サウンド設定">
+      <button id="btnBgm" class="btn small">BGM：ON</button>
+      <button id="btnSfx" class="btn small">効果音：ON</button>
+    </div>
+
+    <!-- タイトル画面 -->
+    <section id="screenTitle" class="screen title">
+      <img class="title-img" src="img/744223960.png" alt="時は満ちた">
+      <h1>はすディフェンス</h1>
+      <p class="lead">ハスキーのぬいぐるみと仲間たちのスタンプを貼って、<br>だらけものから森のおうちを守ろう！</p>
+      <div class="title-buttons">
+        <button id="btnStart" class="btn primary big">スタート</button>
+        <button id="btnHowto" class="btn big">遊び方</button>
+      </div>
+      <div id="howto" class="howto hidden">
+        <ol>
+          <li>画面下に、9種類のスタンプからランダムに4枚の手札が配られます。</li>
+          <li>手札を選び、道のそばの丸い配置ポイントをクリックして貼ります。貼ると新しいカードが1枚配られます。</li>
+          <li>「ウェーブ開始」を押すと敵がやってきます。スタンプは言葉どおりの能力で戦います。</li>
+          <li>敵を倒すと「おやつ」がもらえます。おやつでスタンプを貼ったり、強化したりしましょう。</li>
+          <li>欲しいスタンプがないときは「引き直し」（おやつ10。ウェーブクリアごとに1回無料）。</li>
+          <li>貼ったスタンプをクリックすると、強化（Lv3まで）や売却ができます。</li>
+          <li>敵がおうちに着くと耐久値が減ります。5ウェーブを耐えきればクリア！</li>
+        </ol>
+        <p class="keys">ショートカット：<kbd>1</kbd>〜<kbd>4</kbd> 手札を選ぶ ／ <kbd>R</kbd> 引き直し ／ <kbd>Space</kbd> 一時停止 ／ <kbd>Esc</kbd>・右クリック 選択解除</p>
+        <p class="keys">BGMと効果音は、画面右上のボタンでオン・オフできます。</p>
+      </div>
+    </section>
+
+    <!-- 戦闘画面 -->
+    <section id="screenBattle" class="screen battle hidden">
+      <header class="hud">
+        <div class="stat">
+          <span class="label">おうち</span>
+          <span id="hudHp" class="value">20 / 20</span>
+          <span class="meter"><span id="hpBar"></span></span>
+        </div>
+        <div class="stat">
+          <span class="label">おやつ</span>
+          <span id="hudSnack" class="value">100</span>
+        </div>
+        <div class="stat">
+          <span class="label">ウェーブ</span>
+          <span id="hudWave" class="value">0 / 5</span>
+        </div>
+        <p id="hudStatus" class="status"></p>
+        <div class="hud-buttons">
+          <button id="btnWave" class="btn primary">ウェーブ開始</button>
+          <button id="btnPause" class="btn">一時停止</button>
+          <button id="btnSpeed" class="btn">2倍速：OFF</button>
+        </div>
+      </header>
+
+      <div class="field-wrap">
+        <canvas id="field" width="960" height="540"></canvas>
+        <img id="cutin" class="cutin" data-base="cutin" alt="">
+        <img id="reaction" class="reaction" data-base="reaction" alt="">
+        <div id="toast" class="toast"></div>
+      </div>
+
+      <div class="bottom">
+        <div class="hand-area">
+          <div id="stampBar" class="stamp-bar" aria-label="手札"></div>
+          <button id="btnReroll" class="btn reroll">
+            <span class="reroll-label">引き直し</span>
+            <span id="rerollCost" class="reroll-cost">おやつ 10</span>
+            <kbd>R</kbd>
+          </button>
+        </div>
+        <aside id="info" class="info"></aside>
+      </div>
+    </section>
+
+    <!-- 結果画面 -->
+    <div id="result" class="result hidden">
+      <div class="result-card">
+        <h2 id="resultTitle"></h2>
+        <div class="result-imgs">
+          <img id="resultImg1" alt="">
+          <img id="resultImg2" alt="">
+        </div>
+        <dl id="resultStats" class="result-stats"></dl>
+        <div class="result-buttons">
+          <button id="btnRetry" class="btn primary big">もう一度</button>
+          <button id="btnToTitle" class="btn big">タイトルへ</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/entities.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
