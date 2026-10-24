@@ -155,8 +155,78 @@
       '<div><dt>到達ウェーブ</dt><dd>' + game.wave + ' / ' + game.totalWaves + '</dd></div>' +
       '<div><dt>おうちの耐久値</dt><dd>' + game.hp + ' / ' + game.maxHp + '</dd></div>' +
       '<div><dt>獲得したおやつ</dt><dd>' + game.earned + '</dd></div>';
+    shareText = buildShareText(won);
+    $('shareText').textContent = shareText;
+    $('btnShareNative').classList.toggle('hidden', !navigator.share);
     $('result').classList.remove('hidden');
   }
+
+  // ---- 結果のシェア ----
+  const PUBLIC_URL = 'https://let708708.github.io/hasu-diffence/';
+  let shareText = '';
+
+  function gameUrl() {
+    return /^https?:$/.test(location.protocol) ? location.origin + location.pathname : PUBLIC_URL;
+  }
+
+  // 最後に戦場にいた仲間のうち、多かったスタンプ上位2つ
+  function teamSummary() {
+    const count = {};
+    game.units.forEach((u) => (count[u.type] = (count[u.type] || 0) + 1));
+    return Object.keys(count)
+      .sort((a, b) => count[b] - count[a])
+      .slice(0, 2)
+      .map((k) => HD.STAMPS[k].name + '×' + count[k])
+      .join('、');
+  }
+
+  function buildShareText(won) {
+    const head = won
+      ? 'はすディフェンスで森のおうちを守りきった！🏠✨'
+      : 'はすディフェンス、ウェーブ' + game.wave + '/' + game.totalWaves + 'でおうちが占領された…😢';
+    const lines = [head, 'おうちの耐久 ' + game.hp + '/' + game.maxHp + '・おやつ ' + game.earned + 'こ'];
+    const team = teamSummary();
+    if (team) lines.push('主力：' + team);
+    lines.push('#はすディフェンス');
+    return lines.join('\n');
+  }
+
+  function openShare(url) {
+    window.open(url, '_blank', 'noopener');
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    // file:// などクリップボードAPIが使えない環境向け
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    ta.remove();
+    return ok ? Promise.resolve() : Promise.reject(new Error('copy failed'));
+  }
+
+  $('btnShareX').addEventListener('click', () => {
+    openShare('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(gameUrl()));
+  });
+  $('btnShareBsky').addEventListener('click', () => {
+    // Blueskyは本文にURLを含めるとリンクになる
+    openShare('https://bsky.app/intent/compose?text=' + encodeURIComponent(shareText + '\n' + gameUrl()));
+  });
+  $('btnShareCopy').addEventListener('click', () => {
+    const btn = $('btnShareCopy');
+    copyText(shareText + '\n' + gameUrl()).then(
+      () => (btn.textContent = 'コピーしました！'),
+      () => (btn.textContent = 'コピーできませんでした')
+    );
+    setTimeout(() => (btn.textContent = 'コピー'), 2000);
+  });
+  $('btnShareNative').addEventListener('click', () => {
+    navigator.share({ title: 'はすディフェンス', text: shareText, url: gameUrl() }).catch(() => {});
+  });
 
   // ---- 手札 ----
   function cardHtml(type, i) {

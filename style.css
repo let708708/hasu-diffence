@@ -355,6 +355,8 @@ kbd {
   padding: 24px;
   text-align: center;
   width: min(620px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
   animation: pop 0.35s ease-out;
 }
 @keyframes pop {
@@ -371,6 +373,26 @@ kbd {
 .result-stats { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 16px 0; }
 .result-stats dt { font-size: 0.8rem; color: var(--ink-soft); }
 .result-stats dd { margin: 0; font-size: 1.4rem; font-weight: 800; }
+.share {
+  background: #fff;
+  border: 2px dashed var(--line);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin: 0 0 16px;
+}
+.share-title { margin: 0 0 4px; font-weight: 800; font-size: 0.9rem; }
+.share-text {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  text-align: left;
+}
+.share-buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.btn.share-x { background: #111; border-color: #000; color: #fff; box-shadow: 0 3px 0 #000; }
+.btn.share-bsky { background: #1185fe; border-color: #0a5fc4; color: #fff; box-shadow: 0 3px 0 #0a5fc4; }
+
 .result-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
 /* ---- 画面幅が狭いとき ---- */

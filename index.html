@@ -4,6 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>はすディフェンス</title>
+  <meta name="description" content="ハスキーのぬいぐるみと仲間たちのスタンプを貼って、だらけものから森のおうちを守るブラウザーのタワーディフェンス。">
+  <!-- リンクを貼ったときに表示されるカード -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="はすディフェンス">
+  <meta property="og:description" content="ハスキーのぬいぐるみと仲間たちのスタンプを貼って、森のおうちを守るタワーディフェンス。">
+  <meta property="og:url" content="https://let708708.github.io/hasu-diffence/">
+  <meta property="og:image" content="https://let708708.github.io/hasu-diffence/img/744223960.png">
+  <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
@@ -93,6 +101,16 @@
           <img id="resultImg2" alt="">
         </div>
         <dl id="resultStats" class="result-stats"></dl>
+        <div class="share">
+          <p class="share-title">結果をシェア</p>
+          <p id="shareText" class="share-text"></p>
+          <div class="share-buttons">
+            <button id="btnShareX" class="btn share-x">X（Twitter）</button>
+            <button id="btnShareBsky" class="btn share-bsky">Bluesky</button>
+            <button id="btnShareCopy" class="btn">コピー</button>
+            <button id="btnShareNative" class="btn hidden">その他のアプリ</button>
+          </div>
+        </div>
         <div class="result-buttons">
           <button id="btnRetry" class="btn primary big">もう一度</button>
           <button id="btnToTitle" class="btn big">タイトルへ</button>
